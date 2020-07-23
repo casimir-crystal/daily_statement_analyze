@@ -2,8 +2,7 @@
 
 {% block content %}
     <div class="container">
-      <h1 class="mt-5">欢迎使用！</h1>
-      <div class="alert alert-success" role="alert">
+      <div class="alert alert-success" role="alert" style="text-align: center;">
         已成功上传 <b>{{ date }}.csv</b> 文件。请继续。
       </div>
       <p>下一步。因为小票上的美团外卖、美团开店宝、口碑的数据不准确，所以需要依次手动输入。</p>
@@ -12,11 +11,11 @@
         <label><b>美团外卖</b>：</label>
         <div class="input-group input-group-sm mb-3">
           <div class="form-label-group">
-            <input type="text" name="meituan_turnover" id="meituan_turnover" class="form-control" placeholder="美团外卖销售额" required>
+            <input type="number" step="0.01" name="meituan_turnover" id="meituan_turnover" class="form-control" placeholder="美团外卖销售额" required>
             <label for="meituan_turnover">美团外卖销售额</label>
           </div>
           <div class="form-label-group">
-            <input type="text" name="meituan_sells" id="meituan_sells" class="form-control" placeholder="美团外卖单数" required>
+            <input type="number" step="0.01" name="meituan_sells" id="meituan_sells" class="form-control" placeholder="美团外卖单数" required>
             <label for="meituan_sells">美团外卖单数</label>
           </div>
         </div>
@@ -24,11 +23,11 @@
         <label><b>美团开店宝</b>：</label>
         <div class="input-group input-group-sm mb-3">
           <div class="form-label-group">
-            <input type="text" name="kaidianbao_turnover" id="kaidianbao_turnover" class="form-control" placeholder="开店宝销售额" required>
+            <input type="number" step="0.01" name="kaidianbao_turnover" id="kaidianbao_turnover" class="form-control" placeholder="开店宝销售额" required>
             <label for="kaidianbao_turnover">开店宝销售额</label>
           </div>
           <div class="form-label-group">
-            <input type="text" name="kaidianbao_sells" id="kaidianbao_sells" class="form-control" placeholder="开店宝单数" required>
+            <input type="number" step="0.01" name="kaidianbao_sells" id="kaidianbao_sells" class="form-control" placeholder="开店宝单数" required>
             <label for="kaidianbao_sells">开店宝单数</label>
           </div>
         </div>
@@ -36,12 +35,24 @@
         <label><b>口碑掌柜</b>：</label>
         <div class="input-group input-group-sm mb-3">
           <div class="form-label-group">
-            <input type="text" name="koubei_turnover" id="koubei_turnover" class="form-control" placeholder="口碑销售额" required>
+            <input type="number" step="0.01" name="koubei_turnover" id="koubei_turnover" class="form-control" placeholder="口碑销售额" required>
             <label for="koubei_turnover">口碑销售额</label>
           </div>
           <div class="form-label-group">
-            <input type="text" name="koubei_sells" id="koubei_sells" class="form-control" placeholder="口碑单数" required>
+            <input type="number" step="0.01" name="koubei_sells" id="koubei_sells" class="form-control" placeholder="口碑单数" required>
             <label for="koubei_sells">口碑单数</label>
+          </div>
+        </div>
+
+        <label><b>微信小程序</b>：</label>
+        <div class="input-group input-group-sm mb-3">
+          <div class="form-label-group">
+            <input type="number" step="0.01" name="xiaochengxu_turnover" id="xiaochengxu_turnover" class="form-control" placeholder="小程序销售额" required>
+            <label for="xiaochengxu_turnover">小程序销售额</label>
+          </div>
+          <div class="form-label-group">
+            <input type="number" step="0.01" name="xiaochengxu_sells" id="xiaochengxu_sells" class="form-control" placeholder="小程序单数" required>
+            <label for="xiaochengxu_sells">小程序单数</label>
           </div>
         </div>
         <p>全部填写完成后，点击提交进入下一步。</p>
