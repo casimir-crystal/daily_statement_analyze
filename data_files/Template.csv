@@ -1,2 +1,0 @@
-﻿营业额,GC,AC,累计营业额,累计GC,饿了么,美团外卖,线上合计,线上GC,AC,现金,微信,支付宝,口碑掌柜,开店宝（美团）,银行APP,商场,POS机GC,POS机AC,小程序,小程序GC,小程序AC,线下合计,线下GC,线下AC,储蓄卡/福利券
-,,,sum+last_sum,sum_gc+last_sum_gc,None,meituan=input(),meituan,meituan_gc=input(),meituan/meituan_gc,var,var,var,input(),input(),None,None,None,None,var:pro,var:pro_gc,pro/pro_gc,,,,
