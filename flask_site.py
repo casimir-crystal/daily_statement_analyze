@@ -1,30 +1,29 @@
+import os
 import json
-from os import path
 from datetime import datetime
 from csv_analyze import table_export
 from flask import Flask, request, render_template, redirect, url_for
 
 app = Flask(__name__)
 data_file = {}
+data_path = 'data_files'
+if not os.path.exists(data_path):
+    os.makedirs(data_path)
 
 
 @app.before_request
 def before_request_func():
     today = datetime.today().strftime('%Y-%m-%d')
     data_file['today'] = today
-    data_file['csv_filename'] = today+'.csv'
-    data_file['csv_filepath'] = path.join('data_files',
-                                          data_file['csv_filename'])
-    data_file['json_filename'] = today+'.json'
-    data_file['json_filepath'] = path.join('data_files',
-                                           data_file['json_filename'])
+    data_file['csv_filepath'] = os.path.join(data_path, today+'.csv')
+    data_file['json_filepath'] = os.path.join(data_path, today+'.json')
 
 
 @app.route('/')
 def index():
-    if not path.exists(data_file['csv_filepath']):
+    if not os.path.exists(data_file['csv_filepath']):
         return redirect(url_for('upload'))
-    elif not path.exists(data_file['json_filepath']):
+    elif not os.path.exists(data_file['json_filepath']):
         return redirect(url_for('information'))
     else:
         return redirect(url_for('result'))
