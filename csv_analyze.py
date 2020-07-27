@@ -3,7 +3,7 @@ from datetime import datetime
 from decimal import Decimal, ROUND_HALF_UP
 
 
-def table_export(csv_filename, form_dict, today=datetime.now()):
+def table_export(csv_filename, form_dict, today=datetime.now(), last_result=None):
     """
     完整的table构建函数。接受由收银机生成并由用户上传的csv文件名为参数。
     """
@@ -18,7 +18,7 @@ def table_export(csv_filename, form_dict, today=datetime.now()):
                     # value = value // 0.01 / 100  # 保留两位小数
                     # value = round(value, 2)  # 四舍五入，奇进偶舍：https://www.cnblogs.com/xieqiankun/p/the_truth_of_round.html
                     value = Decimal(str(value)).quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)  # 通常的四舍五入
-            except ValueError, TypeError:
+            except (ValueError, TypeError):
                 # it's not a number, that's fine
                 pass
             finally:
@@ -71,7 +71,10 @@ def table_export(csv_filename, form_dict, today=datetime.now()):
     table_dict['GC'] = table_dict['线上GC'] + table_dict['线下GC']
     table_dict['AC'] = table_dict['营业额'] / table_dict['GC']
 
-    table_dict['累计营业额'] = table_dict['营业额'] + 0
-    table_dict['累计GC'] = table_dict['GC'] + 0
+    # 检查 `last_result` 是否传入，以及是否有‘累计营业额’这个键，并且该键不为空
+    if last_result and last_result.get('累计营业额', False):
+        # 如果是，将该键内容转为数字并加入 `table_dict`, GC同理
+        table_dict['累计营业额'] = table_dict['营业额'] + float(last_result['累计营业额'])
+        table_dict['累计GC'] = table_dict['GC'] + int(last_result['累计GC'])
 
     return table_dict
