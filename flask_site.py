@@ -5,25 +5,25 @@ from csv_analyze import table_export
 from flask import Flask, request, render_template, redirect, url_for
 
 app = Flask(__name__)
-data_file = {}
-data_path = 'data_files'
-if not os.path.exists(data_path):
-    os.makedirs(data_path)
+logs_data = {}
+logs_path = 'logs_data'
+if not os.path.exists(logs_path):
+    os.makedirs(logs_path)
 
 
 @app.before_request
 def before_request_func():
     today = datetime.today().strftime('%Y-%m-%d')
-    data_file['today'] = today
-    data_file['csv_filepath'] = os.path.join(data_path, today+'.csv')
-    data_file['json_filepath'] = os.path.join(data_path, today+'.json')
+    logs_data['today'] = today
+    logs_data['csv_filepath'] = os.path.join(logs_path, today+'.csv')
+    logs_data['json_filepath'] = os.path.join(logs_path, today+'.json')
 
 
 @app.route('/')
 def index():
-    if not os.path.exists(data_file['csv_filepath']):
+    if not os.path.exists(logs_data['csv_filepath']):
         return redirect(url_for('upload'))
-    elif not os.path.exists(data_file['json_filepath']):
+    elif not os.path.exists(logs_data['json_filepath']):
         return redirect(url_for('information'))
     else:
         return redirect(url_for('result'))
@@ -32,27 +32,27 @@ def index():
 @app.route('/upload/', methods=['GET', 'POST'])
 def upload():
     if request.method == 'GET':
-        return render_template('upload.html', date=data_file['today'])
+        return render_template('upload.html', date=logs_data['today'])
     elif request.method == 'POST':
-        request.files['file'].save(data_file['csv_filepath'])
+        request.files['file'].save(logs_data['csv_filepath'])
         return redirect(url_for('index'))
 
 
 @app.route('/information/', methods=['GET', 'POST'])
 def information():
     if request.method == 'GET':
-        return render_template('information.html', date=data_file['today'])
+        return render_template('information.html', date=logs_data['today'])
     elif request.method == 'POST':
         req_dict = dict(request.form)
-        result_dict = table_export(data_file['csv_filepath'], req_dict)
-        with open(data_file['json_filepath'], 'w') as f:
+        result_dict = table_export(logs_data['csv_filepath'], req_dict)
+        with open(logs_data['json_filepath'], 'w') as f:
             json.dump(result_dict, f)
         return redirect(url_for('index'))
 
 
 @app.route('/result/')
 def result():
-    with open(data_file['json_filepath']) as f:
+    with open(logs_data['json_filepath']) as f:
         return render_template('result.html', data=json.load(f))
 
 
