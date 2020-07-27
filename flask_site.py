@@ -21,7 +21,7 @@ def get_filepath(date, file_suffix):
 @app.before_request
 def before_request_func():
     date['today'] = datetime.today().strftime('%Y-%m-%d')
-    date['yesterday'] = datetime.today() - timedelta(1) .strftime('%Y-%m-%d')
+    date['yesterday'] = (datetime.today() - timedelta(1)).strftime('%Y-%m-%d')
 
 
 @app.route('/')
@@ -51,18 +51,18 @@ def information():
         req_dict = dict(request.form)
         if os.path.exists(get_filepath(date['yesterday'], 'json')):
             result_dict = table_export(get_filepath(date['today'], 'csv'),
-                                       get_filepath(date['yesterday'], json), req_dict)
+                                       get_filepath(date['yesterday'], 'json'), req_dict)
         else:
             result_dict = table_export(get_filepath(date['today'], 'csv'), req_dict)
 
-        with open(get_filepath(logs_path, date['today'], 'json'), 'w') as f:
-            json.dump(result_dict, f)
+        with open(get_filepath(date['today'], 'json'), 'w') as f:
+            json.dump(dict(result_dict), f)
         return redirect(url_for('index'))
 
 
 @app.route('/result/')
 def result():
-    with open(date['json_filepath']) as f:
+    with open(get_filepath(date['today'], 'json')) as f:
         return render_template('result.html', data=json.load(f))
 
 
