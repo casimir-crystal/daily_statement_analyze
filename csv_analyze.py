@@ -79,4 +79,4 @@ def table_export(csv_filename, form_dict, today=datetime.now(), last_result=None
         table_dict['累计营业额'] = table_dict['营业额'] + float(last_result['累计营业额'])
         table_dict['累计GC'] = table_dict['GC'] + int(last_result['累计GC'])
 
-    return table_dict
+    return dict(table_dict)  # 最后将NumbericDict转换为普通dict
