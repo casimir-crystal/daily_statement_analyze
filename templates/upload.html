@@ -10,22 +10,11 @@
       <p>这样，程序才可以访问现金、微信支付宝和小程序等数据；就和我们直接看小票一样。</p>
       <form method="post" enctype="multipart/form-data">
         <div class="input-group mb-2">
-          <div class="custom-file">
-            <input id="selectCSV" name="file" type="file" class="custom-file-input" id="inputGroupFile" accept=".csv">
-            <label class="custom-file-label" for="inputGroupFile" aria-describedby="inputGroupFileAddon">选择文件</label>
-          </div>
+          <input id="selectCSV" name="file" type="file" id="inputGroupFile" accept=".csv">
         </div>
         <small class="form-text text-muted">先在上面选择今天导出的文件，然后点击提交进入下一步。</small>
         <br />
         <button type="submit" class="btn btn-primary">提交</button>
       </form>
     </div>
-
-    <script>
-      document.querySelector('.custom-file-input').addEventListener('change',function(e){
-        var fileName = document.getElementById("selectCSV").files[0].name;
-        var nextSibling = e.target.nextElementSibling
-        nextSibling.innerText = fileName
-      })
-    </script>
 {% endblock %}
