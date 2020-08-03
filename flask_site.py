@@ -61,8 +61,9 @@ def information():
         if os.path.exists(get_filepath(date['yesterday'], 'json')):
             # 如果存在昨日数据，则直接提取昨日的总营业额传入`table_export`
             # TODO: 如果不存在，则要求用户主动输入
-            result_dict = table_export(get_filepath(date['today'], 'csv'),
-                                       get_filepath(date['yesterday'], 'json'), req_dict)
+            with open(get_filepath(date['yesterday'], 'json')) as f:
+                result_dict = table_export(get_filepath(date['today'], 'csv'), req_dict,
+                                       last_result=json.load(f))
         else:
             # 如果不存在，则直接抛给`table_export`处理
             result_dict = table_export(get_filepath(date['today'], 'csv'), req_dict)
