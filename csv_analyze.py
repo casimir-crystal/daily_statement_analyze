@@ -26,7 +26,6 @@ def table_export(csv_filename, form_dict, today=datetime.now(), last_result=None
     完整的table构建函数。接受由收银机生成并由用户上传的csv文件名为参数。
     """
 
-    # First, read the csv file into a dict as `data`
     with open(csv_filename, encoding="gbk") as f:
         reader = csv.DictReader(f)
 
@@ -73,10 +72,12 @@ def table_export(csv_filename, form_dict, today=datetime.now(), last_result=None
     table_dict['GC'] = table_dict['线上GC'] + table_dict['线下GC']
     table_dict['AC'] = table_dict['营业额'] / table_dict['GC']
 
-    # 检查 `last_result` 是否传入，以及是否有‘累计营业额’这个键，并且该键不为空
-    if last_result and last_result.get('累计营业额', False):
-        # 如果是，将该键内容转为数字并加入 `table_dict`, GC同理
+    # 检查 `last_result` 是否传入，再检查有无‘累计营业额’键且非空
+    if last_result and last_result.get('累计营业额'):
         table_dict['累计营业额'] = table_dict['营业额'] + float(last_result['累计营业额'])
         table_dict['累计GC'] = table_dict['GC'] + int(last_result['累计GC'])
+    elif form_dict.get('yesterday_all_turnover') and form_dict.get('yesterday_all_gc'):
+        table_dict['累计营业额'] = table_dict['营业额'] + float(form_dict['yesterday_all_turnover'])
+        table_dict['累计GC'] = table_dict['GC'] + int(form_dict['yesterday_all_gc'])
 
-    return dict(table_dict)  # 最后将NumbericDict转换为普通dict
+    return dict(table_dict)  # 返回标准dict对象

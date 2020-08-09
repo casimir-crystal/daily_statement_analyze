@@ -25,7 +25,8 @@ def get_filepath(date, file_suffix):
 def before_request_func():
     # 每个请求都运行一次，确保日期准确
     today = datetime.today()
-    date['today'] = today.strftime('%Y-%m-%d')  # YYYY-MM-DD, 2020-08-20 for example
+    # YYYY-MM-DD, 2020-08-20 for example
+    date['today'] = today.strftime('%Y-%m-%d')
     date['yesterday'] = (today - timedelta(1)).strftime('%Y-%m-%d')
 
 
@@ -54,19 +55,25 @@ def upload():
 
 @app.route('/information/', methods=['GET', 'POST'])
 def information():
-    if request.method == 'GET':
-        return render_template('information.html', date=date['today'])
-    elif request.method == 'POST':
-        req_dict = dict(request.form)  # 首先获取表单提交的信息，转换为dict
-        if os.path.exists(get_filepath(date['yesterday'], 'json')):
-            # 如果存在昨日数据，则直接提取昨日的总营业额传入`table_export`
-            # TODO: 如果不存在，则要求用户主动输入
-            result_dict = table_export(get_filepath(date['today'], 'csv'),
-                                       get_filepath(date['yesterday'], 'json'), req_dict)
-        else:
-            # 如果不存在，则直接抛给`table_export`处理
-            result_dict = table_export(get_filepath(date['today'], 'csv'), req_dict)
+    if os.path.exists(get_filepath(date['yesterday'], 'json')):
+        with open(get_filepath(date['yesterday'], 'json')) as f:
+            last_result = json.load(f)
 
+        no_last_result = not (last_result and last_result.get('累计营业额'))
+    else:
+        no_last_result = True
+
+    if request.method == 'GET':
+        return render_template('information.html', date=date['today'], no_last_result=no_last_result)
+    elif request.method == 'POST':
+        form_dict = dict(request.form)  # 首先获取表单提交的信息，转换为dict
+
+        if no_last_result:
+            result_dict = table_export(
+                get_filepath(date['today'], 'csv'), form_dict)
+        else:
+            result_dict = table_export(get_filepath(date['today'], 'csv'),
+                                       form_dict, last_result=last_result)
         # 将返回结果转换为json，以日期命名保存为json文件
         with open(get_filepath(date['today'], 'json'), 'w') as f:
             json.dump(result_dict, f)
