@@ -17,17 +17,22 @@ else:
     working_json_dict = {}
 
 if working_json_dict.get('累计营业额'):
-    print('已存在昨日的累计营业额，是否仍需更改？\n')
+    print('已存在昨日的累计营业额，是否仍需更改？')
     print('昨日累计营业额：', working_json_dict['累计营业额'])
     print('昨日累计GC：', working_json_dict['累计GC'])
-    confirm = input('输入 Y/y:')
+    print()
+    confirm = input('输入 Y/y: ')
 
-    if confirm not in 'Yy':
+    if confirm not in list('Yy'):
         print('操作取消')
         sys.exit(0)
 
-working_json_dict['累计营业额'] = float(input('输入累计营业额：'))
-working_json_dict['累计GC'] = int(input('输入累计GC：'))
-
-with open(last_json_file, 'w') as f:
-    working_json_dict = json.dump(working_json_dict, f)
+try:
+    working_json_dict['累计营业额'] = float(input('输入累计营业额：'))
+    working_json_dict['累计GC'] = int(input('输入累计GC：'))
+except ValueError:
+    print('输入错误，请重新运行程序')
+    sys.exit(1)
+else:
+    with open(last_json_file, 'w') as f:
+        working_json_dict = json.dump(working_json_dict, f)
