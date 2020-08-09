@@ -7,6 +7,9 @@ logs_path = 'saved_logs'
 yesterday = (datetime.today() - timedelta(1)).strftime('%Y-%m-%d')
 last_json_file = os.path.join(logs_path, yesterday+'.json')
 
+if not os.path.exists(logs_path):
+    os.mkdir(logs_path)
+
 if os.path.exists(last_json_file):
     with open(last_json_file) as f:
         working_json_dict = json.load(f)
