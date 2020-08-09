@@ -21,7 +21,7 @@ class NumbericDict(UserDict):
             self.data[key] = value
 
 
-def table_export(csv_filename, form_dict, today=datetime.now(), last_result=None):
+def table_export(csv_filename, form_dict, last_result=None, today=datetime.now()):
     """
     完整的table构建函数。接受由收银机生成并由用户上传的csv文件名为参数。
     """

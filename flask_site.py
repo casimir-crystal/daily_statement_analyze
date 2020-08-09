@@ -66,7 +66,7 @@ def information():
     if request.method == 'GET':
         return render_template('information.html', date=date['today'], no_last_result=no_last_result)
     elif request.method == 'POST':
-        form_dict = dict(request.form)  # 首先获取表单提交的信息，转换为dict
+        form_dict = dict(request.form)
 
         if no_last_result:
             result_dict = table_export(
