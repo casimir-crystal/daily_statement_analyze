@@ -7,11 +7,11 @@
         今天日期是：<b>{{ date }}</b>。请务必选择日期正确的数据。
       </div>
       <p>首先需要上传由收银机生成的csv文件。</p>
-      <p>这样，程序才可以访问现金、微信支付宝和小程序等数据；就和我们直接看小票一样。</p>
+      <p>这样，程序才可以访问现金、微信支付宝和小程序等数据；就和我们查看小票上的数据一样。</p>
       <form method="post" enctype="multipart/form-data">
         <div class="input-group mb-2">
           <input id="inputGroupFile" name="file" type="file" class="custom-file-input" accept=".csv">
-          <label class="custom-file-label" for="inputGroupFile" aria-describedby="inputGroupFileAddon">选择文件</label>
+          <label id="inputFilenameShow" class="custom-file-label" for="inputGroupFile" aria-describedby="inputGroupFileAddon">选择文件</label>
         </div>
         <small class="form-text text-muted">先在上面选择今天导出的文件，然后点击提交进入下一步。</small>
         <br />
@@ -21,9 +21,10 @@
 
     <script>
       document.getElementById('inputGroupFile').addEventListener('change', function(e){
-        var fileName = document.getElementById("inputGroupFile").files[0].name;
-        var nextSibling = e.target.nextElementSibling;
-        nextSibling.innerText = fileName;
+        let fileName = document.getElementById("inputGroupFile").files[0].name;
+        document.getElementById('inputFilenameShow').innerText = fileName;
+
+        alert('你上传的文件名为： '+fileName); // debugging function here
       })
     </script>
 {% endblock %}

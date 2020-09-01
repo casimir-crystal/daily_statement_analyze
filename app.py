@@ -14,8 +14,8 @@ if not os.path.exists(logs_path):
 
 def get_filepath(date, file_suffix):
     """构造文件路径(filepath)的函数
-    输入格式化后的日期字符串YYYY-MM-DD，和后缀名.csv或.json，
-    返回字符串(str)"""
+    输入格式化日期字符串YYYY-MM-DD，和后缀名.csv或.json，
+    返回 str object"""
     return os.path.join(logs_path, '{date}.{file_suffix}'.format(
         date=date, file_suffix=file_suffix
     ))
@@ -59,21 +59,21 @@ def information():
         with open(get_filepath(date['yesterday'], 'json')) as f:
             last_result = json.load(f)
 
-        no_last_result = not (last_result and last_result.get('累计营业额'))
+        last_result_exist = last_result and last_result.get('累计营业额') is None
     else:
-        no_last_result = True
+        last_result_exist = False
 
     if request.method == 'GET':
-        return render_template('information.html', date=date['today'], no_last_result=no_last_result)
+        return render_template('information.html', date=date['today'], last_result_exist=last_result_exist)
     elif request.method == 'POST':
         form_dict = dict(request.form)
 
-        if no_last_result:
-            result_dict = table_export(
-                get_filepath(date['today'], 'csv'), form_dict)
-        else:
+        if last_result_exist:
             result_dict = table_export(get_filepath(date['today'], 'csv'),
                                        form_dict, last_result=last_result)
+        else:
+            result_dict = table_export(
+                get_filepath(date['today'], 'csv'), form_dict)
         # 将返回结果转换为json，以日期命名保存为json文件
         with open(get_filepath(date['today'], 'json'), 'w') as f:
             json.dump(result_dict, f)

@@ -1,4 +1,13 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+
+{% block head %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='floating-labels.css') }}"
+/>
+{% endblock %}
+
+{% block content %}
 <div class="container">
   <div class="alert alert-success" role="alert" style="text-align: center;">
     已成功上传 <b>{{ date }}.csv</b> 文件。请继续。
@@ -69,7 +78,9 @@
     </div>
 
     <p>全部填写完成后，点击提交进入下一步。</p>
-    {% if no_last_result %}
+    {% if not last_result_exist %}
+    <br />
+
     <label><b>昨日总营业额</b>（账本记录）：</label>
     <div class="input-group input-group-sm mb-3">
       <div class="form-label-group">
@@ -107,8 +118,4 @@
   </form>
 </div>
 
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='floating-labels.css') }}"
-/>
 {% endblock %}
