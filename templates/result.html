@@ -1,20 +1,5 @@
 {% extends "base.html" %}
 
-{% block head %}
-<style>
-  @media print{  
-    @page {size: landscape;}
-    html{
-     -ms-transform: rotate(90deg);/* IE 9 */
-     -webkit-transform: rotate(90deg);/* Chrome, Safari, Opera */
-     transform: rotate(90deg);
-    }
-
-    table,h1,h2 {position: relative; left: 15cm;}
-  }
-</style>
-{% endblock %}
-
 {% block content %}
 <table border="1" style="text-align: center; white-space: nowrap;" class="dataframe table table-bordered">
  <thead>
