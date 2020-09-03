@@ -1,5 +1,16 @@
 {% extends "base.html" %}
 
+{% block head %}
+<style>
+@media print {
+  .container {
+      width: auto;
+        
+  }
+}
+</style>
+{% endblock %}
+
 {% block content %}
 <table border="1" style="text-align: center; white-space: nowrap;" class="dataframe table table-bordered">
  <thead>
