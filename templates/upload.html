@@ -19,12 +19,10 @@
       </form>
     </div>
 
-    <script>
+    <script type="text/javascript">
       document.getElementById('inputGroupFile').addEventListener('change', function(e){
         let fileName = document.getElementById("inputGroupFile").files[0].name;
         document.getElementById('inputFilenameShow').innerText = fileName;
-
-        alert('你上传的文件名为： '+fileName); // debugging function here
       })
     </script>
 {% endblock %}
