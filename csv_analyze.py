@@ -56,14 +56,20 @@ def table_export(csv_filename, form_dict, last_result=None, today=datetime.now()
     table_dict['口碑掌柜'] = form_dict['koubei_turnover']
     table_dict['开店宝(美团)'] = form_dict['kaidianbao_turnover']
     table_dict['银行App'] = ''
-    table_dict['商场'] = csv_dict['商城购物卡券']['总金额(元)']
+    table_dict['商场'] = csv_dict['商场购物卡券']['总金额(元)']
     table_dict['POS机GC'] = ''
     table_dict['POS机AC'] = ''
     table_dict['小程序'] = csv_dict['开个店支付']['总金额(元)']
     table_dict['小程序GC'] = csv_dict['开个店支付']['单数']
     table_dict['小程序AC'] = table_dict['小程序'] / table_dict['小程序GC']
-    table_dict['线下合计'] = table_dict['现金'] + table_dict['微信'] + table_dict['支付宝'] + table_dict['口碑掌柜'] + table_dict['开店宝(美团)'] + table_dict['小程序']
-    table_dict['线下GC'] = int(csv_dict['单数']['总计']) - int(csv_dict['单数']['美团买单'])
+    table_dict['线下合计'] = sum(table_dict['现金'],
+                                 table_dict['微信'],
+                                 table_dict['支付宝'],
+                                 table_dict['口碑掌柜'],
+                                 table_dict['开店宝(美团)'],
+                                 table_dict['小程序'],
+                                 table_dict['商场'])
+    table_dict['线下GC'] = int(csv_dict['总计']['单数']) - int(csv_dict['美团买单']['单数'])
     table_dict['线下AC'] = table_dict['线下合计'] / table_dict['线下GC']
     table_dict['储蓄卡/福利券'] = csv_dict['会员卡支付']['总金额(元)']
     table_dict['签名'] = ''
