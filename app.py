@@ -59,7 +59,7 @@ def information():
         with open(get_filepath(date['yesterday'], 'json')) as f:
             last_result = json.load(f)
 
-        last_result_exist = last_result and last_result.get('累计营业额') is None
+        last_result_exist = last_result and last_result.get('累计营业额') is not None
     else:
         last_result_exist = False
 
